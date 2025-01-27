@@ -21,38 +21,10 @@
         [HttpPost("anuncio")]
         public async Task<ActionResult> CreateAnuncio([FromBody] AnuncioModel anuncio)
         {
-            if (anuncio.TipoAnuncio.ToLower() == "produto")
-            {
-                var produto = new ProdutoEntity() 
-                {
-                    NomeAnuncio = anuncio.NomeAnuncio,
-                    DataPublicacao = anuncio.DataPublicacao,
-                    Valor = anuncio.Valor,
-                    Cidade = anuncio.Cidade,
-                    Categoria = anuncio.Categoria,
-                    Modelo = anuncio.Modelo,
-                    Condicao = anuncio.Condicao,
-                    Quantidade = anuncio.Quantidade ?? 0,
-                    TipoAnuncio = anuncio.TipoAnuncio
-                };
-                await _service.CreateAnuncioAsync(produto);
-                return CreatedAtAction(nameof(GetById), new { id = produto.Id }, produto);
-
-            } else //if (anuncio.TipoAnuncio.ToLower() == "servico")
-            {
-                var servico = new ServicoEntity()
-                {
-                    NomeAnuncio = anuncio.NomeAnuncio,
-                    DataPublicacao = anuncio.DataPublicacao,
-                    Valor = anuncio.Valor,
-                    Cidade = anuncio.Cidade,
-                    TipoServico = anuncio.TipoServico,
-                    TipoAnuncio = anuncio.TipoAnuncio
-                };
-
-                await _service.CreateAnuncioAsync(servico);
-                return CreatedAtAction(nameof(GetById), new { id = servico.Id }, servico);
-            } 
+            var response = await _service.CreateAnuncioAsync(anuncio);
+            if (response.Errors != null) return BadRequest(response);
+            return Ok(response);
+ 
         }
 
         [HttpGet]

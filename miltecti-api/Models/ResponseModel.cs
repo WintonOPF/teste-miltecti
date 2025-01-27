@@ -1,23 +1,29 @@
 ﻿namespace miltecti_api.Models
 {
     using System.Collections.Generic;
+    using System.Text.Json.Serialization;
 
     public class ResponseModel<T>
     {
-        public T? Data { get; set; } // Dados da resposta (pode ser nulo em caso de erro)
-        public string Status { get; set; } // Status da resposta (ex: "success", "error")
-        public Dictionary<string, List<string>>? Errors { get; set; } // Erros por campo (nulo se não houver erros)
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public T? Data { get; set; } 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public Dictionary<string, string>? Errors { get; set; }
 
-        public ResponseModel(T Data, string Status)
+        public ResponseModel(T Data)
         {
            this.Data = Data;
-           this.Status = Status;
+           
         }
-
-        public ResponseModel(Dictionary<string, List<string>> Errors, string Status)
+        public ResponseModel(Dictionary<string, string> Errors)
         {
             this.Errors = Errors;
-            this.Status = Status;
+            
+        }
+        public ResponseModel(T? Data, Dictionary<string,string>? Errors)
+        {
+            this.Errors = Errors;
+            this.Data = Data;
         }
 
     }

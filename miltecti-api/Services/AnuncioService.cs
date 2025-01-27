@@ -1,24 +1,18 @@
 ﻿using miltecti_api.Entities;
 using miltecti_api.Models;
 using miltecti_api.Repositories;
-using miltecti_api.Validators;
 
 namespace miltecti_api.Services
 {
     public class AnuncioService : IAnuncioService
     {
-        private readonly IAnuncioRepository _repository;
-        private readonly IValidator<AnuncioEntity> _anuncioValidator;
-        private readonly IValidator<ProdutoEntity> _produtoValidator;
-        private readonly IValidator<ServicoEntity> _servicoValidator;
+        private readonly IAnuncioRepository _repository;      
 
         public AnuncioService(
-            IAnuncioRepository repository,
-            IValidator<AnuncioEntity> anuncioValidator
+            IAnuncioRepository repository       
         )
         {
-            _repository = repository;
-            _anuncioValidator = anuncioValidator;
+            _repository = repository;      
         }
 
         public async Task<List<AnuncioEntity>> GetAllAnunciosAsync()
@@ -31,32 +25,23 @@ namespace miltecti_api.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task CreateAnuncioAsync(AnuncioEntity anuncio)
+        public async Task<ResponseModel<AnuncioEntity>> CreateAnuncioAsync(AnuncioModel model)
         {
-            _anuncioValidator.Validate(anuncio);
+            var anuncio = new AnuncioEntity();
+            if (model.TipoAnuncio.ToLower() == "produto")
+            {           
+                anuncio = new ProdutoEntity().ToType(model);
+            }
+            else if (model.TipoAnuncio.ToLower() == "servico")
+            {
+                anuncio = new ServicoEntity().ToType(model);        
+            }
+
+            var errors = anuncio.Validate();
+            if (errors != null) return new ResponseModel<AnuncioEntity>(errors);
             await _repository.AddAsync(anuncio);
+            return new ResponseModel<AnuncioEntity>(anuncio);
         }
 
-        public async Task CreateProdutoAsync(ProdutoEntity produto)
-        {
-            _produtoValidator.Validate(produto);
-            await _repository.AddAsync(produto);
-        }
-
-        public async Task CreateServicoAsync(ServicoEntity servico)
-        {
-            _servicoValidator.Validate(servico);
-            await _repository.AddAsync(servico);
-        }
-
-        public async Task UpdateAnuncioAsync(AnuncioEntity anuncio)
-        {
-            await _repository.UpdateAsync(anuncio);
-        }
-
-        public async Task DeleteAnuncioAsync(int id)
-        {
-            await _repository.DeleteAsync(id);
-        }
     }
 }

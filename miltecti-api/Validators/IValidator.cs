@@ -2,6 +2,6 @@
 {
     public interface IValidator<T>
     {
-        void Validate(T entity);
+        Dictionary<string, string>? Validate(T entity);
     }
 }

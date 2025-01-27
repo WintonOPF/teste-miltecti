@@ -2,8 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using miltecti_api.Data;
 using miltecti_api.Repositories;
 using miltecti_api.Services;
-using miltecti_api.Entities;
-using miltecti_api.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +13,6 @@ builder.Services.AddDbContext<AnuncioContext>(options => options
                 .UseSqlServer(builder.Configuration
                 .GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IValidator<AnuncioEntity>, AnuncioValidator>();
 builder.Services.AddScoped<IAnuncioRepository, AnuncioRepository>();
 builder.Services.AddScoped<IAnuncioService, AnuncioService>();
 
