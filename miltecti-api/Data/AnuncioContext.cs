@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using miltecti_api.Entities;
+using miltecti_api.Models;
 
 public class AnuncioContext : DbContext
 {

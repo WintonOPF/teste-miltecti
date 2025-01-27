@@ -2,10 +2,13 @@
 
 namespace miltecti_api.Validators
 {
-    public class ServicoValidator : IValidator<ServicoEntity>
+    public class ServicoValidator : AnuncioValidator
     {
-        public void Validate(ServicoEntity servico)
+        public override void Validate(AnuncioEntity anuncio)
         {
+            base.Validate(anuncio);
+
+            var servico = anuncio as ServicoEntity;
             if (string.IsNullOrWhiteSpace(servico.TipoServico))
             {
                 throw new ArgumentException("Selecione um tipo de serviço válido.");

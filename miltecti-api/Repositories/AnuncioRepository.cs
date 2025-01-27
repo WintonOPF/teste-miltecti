@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using miltecti_api.Data;
 using miltecti_api.Entities;
+using miltecti_api.Models;
 
 namespace miltecti_api.Repositories
 {

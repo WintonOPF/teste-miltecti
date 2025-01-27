@@ -1,4 +1,6 @@
-﻿using miltecti_api.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using miltecti_api.Entities;
+using miltecti_api.Models;
 
 namespace miltecti_api.Repositories
 {

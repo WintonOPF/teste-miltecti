@@ -15,10 +15,10 @@ builder.Services.AddDbContext<AnuncioContext>(options => options
                 .UseSqlServer(builder.Configuration
                 .GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IValidator<ProdutoEntity>, ProdutoValidator>();
-builder.Services.AddScoped<IValidator<ServicoEntity>, ServicoValidator>();
+builder.Services.AddScoped<IValidator<AnuncioEntity>, AnuncioValidator>();
 builder.Services.AddScoped<IAnuncioRepository, AnuncioRepository>();
 builder.Services.AddScoped<IAnuncioService, AnuncioService>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

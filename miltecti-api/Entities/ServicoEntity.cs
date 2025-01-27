@@ -1,4 +1,6 @@
-﻿namespace miltecti_api.Entities
+﻿using miltecti_api.Models;
+
+namespace miltecti_api.Entities
 {
     public class ServicoEntity : AnuncioEntity
     {

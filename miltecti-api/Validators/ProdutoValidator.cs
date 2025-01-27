@@ -2,10 +2,13 @@
 
 namespace miltecti_api.Validators
 {
-    public class ProdutoValidator : IValidator<ProdutoEntity>
+    public class ProdutoValidator : AnuncioValidator
     {
-        public void Validate(ProdutoEntity produto)
+        public override void Validate(AnuncioEntity anuncio)
         {
+            base.Validate(anuncio);
+
+            var produto = anuncio as ProdutoEntity;
             if (string.IsNullOrWhiteSpace(produto.Categoria))
             {
                 throw new ArgumentException("Selecione uma categoria válida.");

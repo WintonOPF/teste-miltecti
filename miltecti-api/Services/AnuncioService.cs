@@ -1,4 +1,5 @@
 ﻿using miltecti_api.Entities;
+using miltecti_api.Models;
 using miltecti_api.Repositories;
 using miltecti_api.Validators;
 
@@ -7,17 +8,17 @@ namespace miltecti_api.Services
     public class AnuncioService : IAnuncioService
     {
         private readonly IAnuncioRepository _repository;
+        private readonly IValidator<AnuncioEntity> _anuncioValidator;
         private readonly IValidator<ProdutoEntity> _produtoValidator;
         private readonly IValidator<ServicoEntity> _servicoValidator;
 
         public AnuncioService(
             IAnuncioRepository repository,
-            IValidator<ProdutoEntity> produtoValidator,
-            IValidator<ServicoEntity> servicoValidator)
+            IValidator<AnuncioEntity> anuncioValidator
+        )
         {
             _repository = repository;
-            _produtoValidator = produtoValidator;
-            _servicoValidator = servicoValidator;
+            _anuncioValidator = anuncioValidator;
         }
 
         public async Task<List<AnuncioEntity>> GetAllAnunciosAsync()
@@ -28,6 +29,12 @@ namespace miltecti_api.Services
         public async Task<AnuncioEntity> GetAnuncioByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
+        }
+
+        public async Task CreateAnuncioAsync(AnuncioEntity anuncio)
+        {
+            _anuncioValidator.Validate(anuncio);
+            await _repository.AddAsync(anuncio);
         }
 
         public async Task CreateProdutoAsync(ProdutoEntity produto)
