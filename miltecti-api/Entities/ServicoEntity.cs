@@ -12,7 +12,7 @@ namespace miltecti_api.Entities
 
             if (string.IsNullOrWhiteSpace(TipoServico))
             {
-                errors.Add("TipoServico", "Selecione o tipo de serviço.");
+                errors.Add("tipoServico", "Selecione o tipo de serviço.");
             }
 
             if (errors.IsNullOrEmpty()) return null;

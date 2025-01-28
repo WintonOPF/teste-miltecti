@@ -32,7 +32,7 @@ namespace miltecti_api.Services
             {           
                 anuncio = new ProdutoEntity().ToType(model);
             }
-            else if (model.TipoAnuncio.ToLower() == "servico")
+            else if (model.TipoAnuncio.ToLower() == "serviço")
             {
                 anuncio = new ServicoEntity().ToType(model);        
             }

@@ -21,6 +21,7 @@
         [HttpPost("anuncio")]
         public async Task<ActionResult> CreateAnuncio([FromBody] AnuncioModel anuncio)
         {
+            Console.WriteLine(anuncio);
             var response = await _service.CreateAnuncioAsync(anuncio);
             if (response.Errors != null) return BadRequest(response);
             return Ok(response);

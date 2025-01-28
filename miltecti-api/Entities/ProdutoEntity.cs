@@ -17,22 +17,22 @@ namespace miltecti_api.Entities
 
             if (string.IsNullOrWhiteSpace(Categoria))
             {
-                errors.Add("Categoria", "Selecione uma categoria válida.");
+                errors.Add("categoria", "Selecione uma categoria válida.");
             }
 
             if (string.IsNullOrWhiteSpace(Modelo))
             {
-                errors.Add("Modelo", "Selecione um modelo válido.");
+                errors.Add("modelo", "Selecione um modelo válido.");
             }
 
             if (string.IsNullOrWhiteSpace(Condicao))
             {
-                errors.Add("Condicao", "Selecione uma condição válida para o produto.");
+                errors.Add("condicao", "Selecione uma condição válida para o produto.");
             }
 
-            if (Quantidade <= 1)
+            if (Quantidade < 0)
             {
-                errors.Add("Quantidade", "A quantidade deve ser no mínimo 1 unidade.");
+                errors.Add("quantidade", "A quantidade deve ser no mínimo 1 unidade.");
             }
 
             if (errors.IsNullOrEmpty()) return null;
