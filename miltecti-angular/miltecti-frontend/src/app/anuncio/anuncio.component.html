@@ -1,0 +1,67 @@
+<div class="container">
+  <h1>Gerenciar Anúncios</h1>
+
+  <!-- Formulário -->
+  <form [formGroup]="anuncioForm" (ngSubmit)="criarAnuncio()">
+    <div>
+      <label for="nomeAnuncio">Nome do Anúncio:</label>
+      <input id="nomeAnuncio" formControlName="nomeAnuncio" />
+      <div *ngIf="anuncioForm.get('nomeAnuncio')?.invalid && anuncioForm.get('nomeAnuncio')?.touched">
+        <small *ngIf="anuncioForm.get('nomeAnuncio')?.errors?.['required']">O nome é obrigatório.</small>
+        <small *ngIf="anuncioForm.get('nomeAnuncio')?.errors?.['minlength']">Mínimo de 5 caracteres.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="dataPublicacao">Data de Publicação:</label>
+      <input id="dataPublicacao" type="date" formControlName="dataPublicacao" />
+    </div>
+
+    <div>
+      <label for="valor">Valor:</label>
+      <input id="valor" type="number" formControlName="valor" />
+    </div>
+
+    <div>
+      <label for="cidade">Cidade:</label>
+      <input id="cidade" formControlName="cidade" />
+    </div>
+
+    <div>
+      <label for="tipoAnuncio">Tipo de Anúncio:</label>
+      <select id="tipoAnuncio" formControlName="tipoAnuncio">
+        <option value="Produto">Produto</option>
+        <option value="Serviço">Serviço</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="anuncioForm.invalid">Criar Anúncio</button>
+  </form>
+
+  <hr />
+
+  <!-- Lista de Anúncios -->
+  <h2>Lista de Anúncios</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Data</th>
+        <th>Valor</th>
+        <th>Cidade</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let anuncio of anuncios">
+        <td>{{ anuncio.id }}</td>
+        <td>{{ anuncio.nomeAnuncio }}</td>
+        <td>{{ anuncio.dataPublicacao }}</td>
+        <td>{{ anuncio.valor | currency:'BRL' }}</td>
+        <td>{{ anuncio.cidade }}</td>
+        <td>{{ anuncio.tipoAnuncio }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
