@@ -20,17 +20,19 @@ export class AnuncioComponent implements OnInit {
   constructor(private fb: FormBuilder, private anuncioService: AnuncioService) {
     
     this.anuncioForm = this.fb.group({
-      nomeAnuncio: ['', [Validators.required, Validators.minLength(5)]],
-      dataPublicacao: ['', [Validators.required]],
-      valor: [0, [Validators.required, Validators.min(1)]],
-      cidade: ['', Validators.required],
-      categoria: [''],
-      modelo: [''],
-      condicao: [''],
-      quantidade: [0, [Validators.min(1)]],
-      tipoServico: [''],
-      tipoAnuncio: ['', Validators.required],
+    tipoAnuncio: ['', Validators.required],
+    nomeAnuncio: ['', Validators.required],
+    dataPublicacao: ['', Validators.required],
+    valor: ['', [Validators.required]],
+    cidade: ['', Validators.required],
+    categoria: [{ value: '', disabled: true }, Validators.required],
+    modelo: [{ value: '', disabled: true }, Validators.required],
+    condicao: [{ value: '', disabled: true }, Validators.required],
+    quantidade: [{ value: '', disabled: true }, [Validators.required]],
+    tipoServico: [{ value: '', disabled: true }, Validators.required],
     });
+
+    
   }
 
   ngOnInit(): void {
@@ -40,7 +42,7 @@ export class AnuncioComponent implements OnInit {
   carregarAnuncios() {
     this.anuncioService.getAnuncios().subscribe(
       (data) => {
-       
+        this.anuncios= data;
         console.log('Anúncios carregados:', data);
       },
       (error) => {
@@ -49,23 +51,78 @@ export class AnuncioComponent implements OnInit {
     );
   }
 
+  limparFormulario(): void {
+    this.anuncioForm.reset();
+    this.isProduto = false;
+    this.isServico = false;
+    alert('Formulário limpo com sucesso!');
+  }
+
   criarAnuncio() {
     if (this.anuncioForm.valid) {
       const novoAnuncio: Anuncio = this.anuncioForm.value;
       this.anuncioService.createAnuncio(novoAnuncio).subscribe(
-        (response) => {
-          console.log('Anúncio criado com sucesso:', response);
+        (response) => {    
           alert('Anúncio criado com sucesso!');
           this.carregarAnuncios();
           this.anuncioForm.reset();
         },
-        (error) => {
-          console.error('Erro ao criar anúncio:', error);
-          alert('Erro ao criar o anúncio.');
+        (error) => { 
+          const errors: { [key: string]: string } = error.error.errors;       
+          this.processApiErrors(errors);
+          
         }
       );
     } else {
       alert('Formulário inválido! Verifique os campos.');
     }
   }
+
+  private processApiErrors(errors: { [key: string]: string }): void {
+    
+    Object.keys(errors).forEach((field) => {
+      const control = this.anuncioForm.get(field);
+      if (control) {
+        control.setErrors({ apiError: errors[field] });
+      }
+    });
+  }
+
+isProduto = false;
+isServico = false;
+
+onTipoAnuncioChange(): void {
+  const tipoAnuncio = this.anuncioForm.get('tipoAnuncio')?.value;
+  this.isProduto = tipoAnuncio === 'Produto';
+  this.isServico = tipoAnuncio === 'Serviço';
+
+  if (this.isProduto) {
+    this.enableProdutoFields();
+    this.disableServicoFields();
+  } else if (this.isServico) {
+    this.enableServicoFields();
+    this.disableProdutoFields();
+  }
+}
+
+enableProdutoFields(): void {
+  ['categoria', 'modelo', 'condicao', 'quantidade'].forEach((field) => {
+    this.anuncioForm.get(field)?.enable();
+  });
+}
+
+disableProdutoFields(): void {
+  ['categoria', 'modelo', 'condicao', 'quantidade'].forEach((field) => {
+    this.anuncioForm.get(field)?.disable();
+  });
+}
+
+enableServicoFields(): void {
+  this.anuncioForm.get('tipoServico')?.enable();
+}
+
+disableServicoFields(): void {
+  this.anuncioForm.get('tipoServico')?.disable();
+}
+
 }

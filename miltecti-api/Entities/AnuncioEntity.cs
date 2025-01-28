@@ -21,27 +21,27 @@ namespace miltecti_api.Entities
 
             if (string.IsNullOrWhiteSpace(NomeAnuncio))
             {
-                errors.Add("NomeAnuncio", "O nome do anúncio é obrigatório.");
+                errors.Add("nomeAnuncio", "O nome do anúncio é obrigatório.");
             }
             if (NomeAnuncio.Length < 5 || NomeAnuncio.Length > 100)
             {
-                errors.Add("NomeAnuncio", "O nome do anúncio deve ter entre 5 e 100 caracteres.");
+                errors.Add("nomeAnuncio", "O nome do anúncio deve ter entre 5 e 100 caracteres.");
             }
 
             if (DataPublicacao < DateTime.Now.Date)
             {
-                errors.Add("DataPublicacao", "A data de publicação não pode ser anterior à data de hoje.");
+                errors.Add("dataPublicacao", "A data de publicação não pode ser anterior à data de hoje.");
             }
 
-            if (Valor <= 1)
+            if (Valor < 1)
             {
-                errors.Add("Valor", "O valor deve ser maior ou igual a R$ 1,00.");
+                errors.Add("valor", "O valor deve ser maior ou igual a R$ 1,00.");
             }
 
             if (string.IsNullOrWhiteSpace(Cidade) ||
                 !new[] { "São Paulo", "Rio de Janeiro", "Belo Horizonte" }.Contains(Cidade))
             {
-                errors.Add("Cidade", "Selecione uma cidade válida.");
+                errors.Add("cidade", "Selecione uma cidade válida.");
             }
 
 

@@ -1,42 +1,104 @@
 <div class="container">
   <h1>Gerenciar Anúncios</h1>
 
-  <!-- Formulário -->
-  <form [formGroup]="anuncioForm" (ngSubmit)="criarAnuncio()">
-    <div>
-      <label for="nomeAnuncio">Nome do Anúncio:</label>
-      <input id="nomeAnuncio" formControlName="nomeAnuncio" />
-      <div *ngIf="anuncioForm.get('nomeAnuncio')?.invalid && anuncioForm.get('nomeAnuncio')?.touched">
-        <small *ngIf="anuncioForm.get('nomeAnuncio')?.errors?.['required']">O nome é obrigatório.</small>
-        <small *ngIf="anuncioForm.get('nomeAnuncio')?.errors?.['minlength']">Mínimo de 5 caracteres.</small>
+    <!-- Formulário -->
+    <form [formGroup]="anuncioForm" (ngSubmit)="criarAnuncio()">
+      <div>
+        <label for="nomeAnuncio">Nome do Anúncio:</label>
+        <input id="nomeAnuncio" formControlName="nomeAnuncio" />
+        <div *ngIf="anuncioForm.get('nomeAnuncio')?.invalid && anuncioForm.get('nomeAnuncio')?.touched">
+          <small *ngIf="anuncioForm.get('nomeAnuncio')?.errors?.['apiError']">{{ anuncioForm.get('nomeAnuncio')?.errors?.['apiError'] }}</small>
+        </div>
       </div>
-    </div>
-
-    <div>
-      <label for="dataPublicacao">Data de Publicação:</label>
-      <input id="dataPublicacao" type="date" formControlName="dataPublicacao" />
-    </div>
-
-    <div>
-      <label for="valor">Valor:</label>
-      <input id="valor" type="number" formControlName="valor" />
-    </div>
-
-    <div>
-      <label for="cidade">Cidade:</label>
-      <input id="cidade" formControlName="cidade" />
-    </div>
-
-    <div>
-      <label for="tipoAnuncio">Tipo de Anúncio:</label>
-      <select id="tipoAnuncio" formControlName="tipoAnuncio">
-        <option value="Produto">Produto</option>
-        <option value="Serviço">Serviço</option>
-      </select>
-    </div>
-
-    <button type="submit" [disabled]="anuncioForm.invalid">Criar Anúncio</button>
-  </form>
+  
+      <div>
+        <label for="dataPublicacao">Data de Publicação:</label>
+        <input id="dataPublicacao" type="date" formControlName="dataPublicacao" />
+        <div>
+          <small *ngIf="anuncioForm.get('dataPublicacao')?.errors?.['apiError']">{{ anuncioForm.get('dataPublicacao')?.errors?.['apiError'] }}</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="valor">Valor:</label>
+        <input id="valor" type="number" formControlName="valor" />
+        <div>
+          <small *ngIf="anuncioForm.get('valor')?.errors?.['apiError']">{{ anuncioForm.get('valor')?.errors?.['apiError'] }}</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="cidade">Cidade:</label>
+        <select id="cidade" formControlName="cidade">
+          <option value="São Paulo">São Paulo</option>
+          <option value="Rio de Janeiro">Rio de Janeiro</option>
+          <option value="Belo Horizonte">Belo Horizonte</option>
+        </select>
+      </div>
+  
+      <div>
+        <label for="tipoAnuncio">Tipo de Anúncio:</label>
+        <select id="tipoAnuncio" formControlName="tipoAnuncio" (change)="onTipoAnuncioChange()">
+          <option value="Produto">Produto</option>
+          <option value="Serviço">Serviço</option>
+        </select>
+      </div>
+  
+      <!-- Campos Exclusivos para Produto -->
+      <div *ngIf="isProduto">
+        <div>
+          <label for="categoria">Categoria:</label>
+          <select id="categoria" formControlName="categoria">
+            <option value="Eletrônicos">Eletrônicos</option>
+            <option value="Vestuário">Vestuário</option>
+            <option value="Móveis">Móveis</option>
+          </select>
+        </div>
+  
+        <div>
+          <label for="modelo">Modelo:</label>
+          <select id="modelo" formControlName="modelo">
+            <option value="Smart TV UltraView 4K 55">Smart TV UltraView 4K 55"</option>
+            <option value="Jaqueta Puffer Windproof">Jaqueta Puffer Windproof</option>
+            <option value="Mesa de Jantar Madeira Prime 6 Lugares">Mesa de Jantar Madeira Prime 6 Lugares</option>
+          </select>
+        </div>
+  
+        <div>
+          <label>Condição:</label>
+          <label><input type="radio" value="Novo" formControlName="condicao" /> Novo</label>
+          <label><input type="radio" value="Usado" formControlName="condicao" /> Usado</label>
+          <label><input type="radio" value="Seminovo" formControlName="condicao" /> Seminovo</label>
+        </div>
+  
+        <div>
+          <label for="quantidade">Quantidade:</label>
+          <input id="quantidade" type="number" formControlName="quantidade" />
+          <div>
+            <small *ngIf="anuncioForm.get('quantidade')?.errors?.['apiError']">{{ anuncioForm.get('quantidade')?.errors?.['apiError'] }}</small>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Campo Exclusivo para Serviço -->
+      <div *ngIf="isServico">
+        <div>
+          <label for="tipoServico">Tipo de Serviço:</label>
+          <select id="tipoServico" formControlName="tipoServico">
+            <option value="Consultoria">Consultoria</option>
+            <option value="Manutenção">Manutenção</option>
+            <option value="Aulas Particulares">Aulas Particulares</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button type="submit" [disabled]="anuncioForm.invalid">Confirmar</button>
+        <button type="button" (click)="limparFormulario()">Limpar</button>
+      </div>
+    </form>
+  
+    <hr />
+  
 
   <hr />
 

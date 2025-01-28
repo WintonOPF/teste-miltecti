@@ -6,14 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { AnuncioComponent } from './anuncio/anuncio.component';
 import { HttpClient } from '@angular/common/http';
- //import { HttpClientModule } from '@angular/common/http';
  
 
 @NgModule({
   declarations: [
     AppComponent,
     AnuncioComponent,
-    
   ], 
   imports: [
     BrowserModule,
@@ -23,8 +21,6 @@ import { HttpClient } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule ,
     HttpClient,
-    
-    
   ],
   providers: [],
   bootstrap: [AppComponent], 
