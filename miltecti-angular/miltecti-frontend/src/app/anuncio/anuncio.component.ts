@@ -36,20 +36,20 @@ export class AnuncioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carregarAnuncios();
+    // this.carregarAnuncios();
   }
 
-  carregarAnuncios() {
-    this.anuncioService.getAnuncios().subscribe(
-      (data) => {
-        this.anuncios= data;
-        console.log('Anúncios carregados:', data);
-      },
-      (error) => {
-        console.error('Erro ao carregar anúncios:', error);
-      }
-    );
-  }
+  // carregarAnuncios() {
+  //   this.anuncioService.getAnuncios().subscribe(
+  //     (data) => {
+  //       this.anuncios= data;
+  //       console.log('Anúncios carregados:', data);
+  //     },
+  //     (error) => {
+  //       console.error('Erro ao carregar anúncios:', error);
+  //     }
+  //   );
+  // }
 
   limparFormulario(): void {
     this.anuncioForm.reset();
@@ -64,7 +64,7 @@ export class AnuncioComponent implements OnInit {
       this.anuncioService.createAnuncio(novoAnuncio).subscribe(
         (response) => {    
           alert('Anúncio criado com sucesso!');
-          this.carregarAnuncios();
+          // this.carregarAnuncios();
           this.anuncioForm.reset();
         },
         (error) => { 

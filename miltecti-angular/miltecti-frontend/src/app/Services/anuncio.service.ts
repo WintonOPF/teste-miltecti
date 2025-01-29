@@ -11,9 +11,9 @@ export class AnuncioService {
 
   constructor(private http: HttpClient) {}
 
-  getAnuncios(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
+  // getAnuncios(): Observable<any[]> {
+  //   return this.http.get<any[]>(this.apiUrl);
+  // }
 
   createAnuncio(anuncio: any): Observable<any> {
     return this.http.post<any[]>(`${this.apiUrl}/anuncio`, anuncio, { headers:{ 'Content-Type': 'application/json'} });

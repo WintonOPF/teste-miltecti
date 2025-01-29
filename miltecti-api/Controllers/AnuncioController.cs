@@ -28,20 +28,20 @@
  
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<AnuncioModel>>> GetAll()
-        {
-            var anuncios = await _service.GetAllAnunciosAsync();
-            return Ok(anuncios);
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<List<AnuncioModel>>> GetAll()
+        //{
+        //    var anuncios = await _service.GetAllAnunciosAsync();
+        //    return Ok(anuncios);
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AnuncioModel>> GetById(int id)
-        {
-            var anuncio = await _service.GetAnuncioByIdAsync(id);
-            if (anuncio == null) return NotFound();
-            return Ok(anuncio);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<AnuncioModel>> GetById(int id)
+        //{
+        //    var anuncio = await _service.GetAnuncioByIdAsync(id);
+        //    if (anuncio == null) return NotFound();
+        //    return Ok(anuncio);
+        //}
     }
 
 }
